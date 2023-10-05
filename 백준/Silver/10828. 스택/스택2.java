@@ -32,7 +32,5 @@ public class Main {
             if (n > 0) st = new StringTokenizer(br.readLine(), " ");
         }
         System.out.println(sb);
-
-
     }
 }
