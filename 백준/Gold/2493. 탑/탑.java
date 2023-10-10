@@ -9,28 +9,25 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
-        int[] input = new int[n+1];
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        Stack<int[]> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= n; i++) {
-            input[i] = Integer.parseInt(st.nextToken());
-        }
-
-        Stack<Integer> stack = new Stack<>();
-        int[] result = new int[n];
-
-        for (int j = 1; j <= n; j++) {
-            while (!stack.empty() && input[j] >= input[stack.peek()]) {
-                stack.pop();
+            int input = Integer.parseInt(st.nextToken());
+            while (!stack.empty()) {
+                if (stack.peek()[1] <= input) {
+                    stack.pop();
+                } else {
+                    sb.append(stack.peek()[0]).append(" ");
+                    break;
+                }
             }
-            if (stack.empty()) result[j-1] = 0;
-            else {
-                result[j-1] = stack.peek();
+            if (stack.empty()) {
+                sb.append(0).append(" ");
             }
-            stack.push(j);
+            stack.push(new int[] {i, input});
         }
 
-        for (int r : result) {
-            System.out.print(r + " ");
-        }
+        System.out.println(sb);
     }
 }
