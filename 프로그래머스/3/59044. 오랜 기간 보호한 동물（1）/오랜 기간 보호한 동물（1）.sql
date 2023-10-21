@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+SELECT ins.NAME, ins.DATETIME
+FROM ANIMAL_INS as ins left join ANIMAL_OUTS as outs on ins.ANIMAL_ID = outs.ANIMAL_ID
+WHERE outs.ANIMAL_ID is NULL
+ORDER BY ins.DATETIME
+LIMIT 3
