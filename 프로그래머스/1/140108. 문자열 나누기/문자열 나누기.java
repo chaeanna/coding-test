@@ -3,7 +3,7 @@ class Solution {
         int answer = 0;
         char x = s.charAt(0);
         int count = 0;
-        
+
         for (int i = 0; i < s.length(); i++) {
             if (count == 0) {
                 x = s.charAt(i);
@@ -15,7 +15,7 @@ class Solution {
             }
             if (count == 0) answer++;
         }
-        
+
         if (count > 0) {
             answer++;
         }
