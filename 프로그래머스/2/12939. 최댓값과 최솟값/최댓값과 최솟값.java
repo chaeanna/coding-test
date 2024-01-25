@@ -1,16 +1,17 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     public String solution(String s) {
-        StringTokenizer st = new StringTokenizer(s, " ");
-        ArrayList<Integer> list = new ArrayList<>();
-        while (st.hasMoreTokens()) {
-            list.add(Integer.parseInt(st.nextToken()));
+        String answer = "";
+        List<Integer> list = new ArrayList<>();
+        String[] str = s.split(" ");
+        
+        for (int i = 0; i < str.length; i++) {
+            list.add(Integer.parseInt(str[i]));
         }
+        
         Collections.sort(list);
-        StringBuilder sb = new StringBuilder();
-        sb.append(list.get(0)).append(" ").append(list.get(list.size() - 1));
-        return sb.toString();
+        answer = String.valueOf(list.get(0)) + " " + String.valueOf(list.get(list.size()-1));
+        return answer;
     }
 }
