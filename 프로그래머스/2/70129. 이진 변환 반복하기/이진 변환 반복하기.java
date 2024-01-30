@@ -3,16 +3,12 @@ class Solution {
         int[] answer = new int[2];
         int length = s.length();
         
-        while (true) {
-            if (s.equals("1")) {
-                break;
-            }
+        while (!s.equals("1")) {
             int cnt = countNum(s);
             answer[1] += cnt;
             s = Integer.toBinaryString(length-cnt);
             length = s.length();
             answer[0]++;
-            
         }
 
         return answer;
