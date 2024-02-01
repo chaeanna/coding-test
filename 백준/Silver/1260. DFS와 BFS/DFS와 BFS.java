@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 public class Main {
     static int[][] node;
     static boolean[] visited;
+    static Queue<Integer> queue = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
@@ -49,17 +50,16 @@ public class Main {
     }
 
     public static void BFS(int v) {
-        Queue<Integer> queue = new LinkedList<Integer>();
         queue.offer(v);
         visited[v] = true;
-        
+
         System.out.print(v + " ");
 
         while (!queue.isEmpty()) {
             int num = queue.poll();
 
             for (int i = 1; i < node.length; i++) {
-                
+
                 if (node[num][i] == 1 && !visited[i]) {
                     visited[i] = true;
                     System.out.print(i + " ");
