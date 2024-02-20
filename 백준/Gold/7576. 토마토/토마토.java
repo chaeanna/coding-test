@@ -1,6 +1,9 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 class Point{
     public int x, y;
@@ -15,20 +18,25 @@ class Main {
     static int[] disX = {1, -1, 0, 0};
     static int[] disY = {0, 0, 1, -1};
     static Queue<Point> q = new LinkedList<>();
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        m = sc.nextInt();
-        n = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
 
         graph = new int[n][m];
         for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < m; j++) {
-                graph[i][j] = sc.nextInt();
-                if (graph[i][j] == 1) {
-                    q.offer(new Point(i, j));
+                graph[i][j] = Integer.parseInt(st.nextToken());
+                if(graph[i][j] == 1){
+                    q.offer(new Point(i,j));
                 }
+
             }
         }
+        
         BFS();
 
         boolean flag = false;
