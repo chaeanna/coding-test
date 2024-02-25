@@ -16,6 +16,7 @@ class Main {
     static int[] disX = {1, -1, 0, 0};
     static int[] disY = {0, 0, 1, -1};
     static int n, col, ncol = 0;
+    static Queue<Point> q = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
@@ -25,23 +26,16 @@ class Main {
         for (int i = 0; i < n; i++) {
             String str = br.readLine();
             for (int j = 0; j < n; j++) {
-                char c = str.charAt(j);
-                graph[i][j] = c;
-                graphRb[i][j] = c;
+                graph[i][j] = str.charAt(j);
+                graphRb[i][j] = str.charAt(j);
             }
         }
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (graph[i][j] == 'R') {
-                    BFS(i, j, 'R'); //BFS(int y, int x, char color)
-                } else if (graph[i][j] == 'G') {
-                    BFS(i, j, 'G');
-                } else if (graph[i][j] == 'B') {
-                    BFS(i, j, 'B');
-                    ncol++;
+                if (graph[i][j] != 'N') {
+                    BFS(i, j, graph[i][j]);
                 }
-
             }
         }
 
@@ -50,7 +44,6 @@ class Main {
     }
 
     public static void BFS(int y, int x, char color) {
-        Queue<Point> q = new LinkedList<>();
         graph[y][x] = 'N';
         q.offer(new Point(y, x));
 
@@ -93,6 +86,9 @@ class Main {
             }
         }
         col++;
+        if (color == 'B') {
+            ncol++;
+        }
 
     }
 }
