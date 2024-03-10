@@ -19,32 +19,25 @@ class Main {
                 list.add(Integer.parseInt(st.nextToken()));
             }
             Collections.sort(list, Collections.reverseOrder());
-            List<Integer> left = new ArrayList<>();
-            List<Integer> right = new ArrayList<>();
+            int left = 0;
+            int right = n-1;
+            int[] order = new int[n+1];
+
             for (int j = 0; j < n; j++) {
                 if (j % 2 != 0) {
-                    if (j == 0) {
-                        right.add(list.get(j));
-                    }
-                    left.add(list.get(j));
+                    order[left] = list.get(j);
+                    left++;
                 } else {
-                    right.add(list.get(j));
+                    order[right] = list.get(j);
+                    right--;
                 }
             }
-            right.add(left.get(left.size()-1));
+            // 원형
+            order[n] = list.get(0);
 
             int answer = Integer.MIN_VALUE;
-            for (int j = 0; j < left.size() - 1; j++) {
-                int level = left.get(j) - left.get(j+1);
-                if (answer < level) {
-                    answer = level;
-                }
-            }
-            for (int j = 0; j < right.size() - 1; j++) {
-                int level = right.get(j) - right.get(j+1);
-                if (answer < level) {
-                    answer = level;
-                }
+            for (int j = 0; j < n; j++) {
+                answer = Math.max(answer, Math.abs(order[j] - order[j+1]));
             }
 
             sb.append(answer).append("\n");
