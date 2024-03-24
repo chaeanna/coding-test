@@ -6,13 +6,17 @@ class Solution {
         HashMap<String, Integer> genresMap = new HashMap<>();
         // 장르별 노래
         for (int i = 0; i < genres.length; i++) {
+            // key : 고유번호, value : 재생횟수
             playsMap.put(i, plays[i]);
+            // key : 장르, value : 재생횟수 합계
             genresMap.put(genres[i], genresMap.getOrDefault(genres[i], 0) + plays[i]);
         }
         
         List<Map.Entry<String, Integer>> genreRank = new LinkedList<>(genresMap.entrySet());
         List<Map.Entry<Integer, Integer>> playRank = new LinkedList<>(playsMap.entrySet());
+        // 재생횟수 합계가 제일 높은 순으로 장르 정렬
         genreRank.sort((o2, o1) -> genresMap.get(o1.getKey()) - genresMap.get(o2.getKey()));
+        // 재생횟수가 제일 높은 순으로 노래 정렬
         playRank.sort((o2, o1) -> playsMap.get(o1.getKey()) - playsMap.get(o2.getKey()));
         
         /*
