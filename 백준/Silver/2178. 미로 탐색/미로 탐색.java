@@ -1,66 +1,58 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 class Point {
-    int y, x;
-
-    public Point(int y, int x) {
-        this.y = y;
+    int x, y;
+    public Point(int x, int y) {
         this.x = x;
+        this.y = y;
     }
 }
+
 class Main {
     static int n, m;
-    static int[][] graph, dis;
+    static int[][] graph, answer;
+    static boolean[][] visited;
     static int[] disX = {1, -1, 0, 0};
     static int[] disY = {0, 0, 1, -1};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        graph = new int[n+1][m+1];
-        dis = new int[n+1][m+1];
-        for (int i = 1; i <= n; i++) {
+        graph = new int[n][m];
+        answer = new int[n][m];
+        for (int i = 0; i < n; i++) {
             String str = br.readLine();
-            for (int j = 1; j <= m; j++) {
-                graph[i][j] = str.charAt(j-1) - '0';
+            for (int j = 0; j < m; j++) {
+                graph[i][j] = str.charAt(j) - '0';
             }
         }
-        graph[1][1] = 0;
-        dis[1][1] = 1;
-        BFS(1, 1); //BFS(int y, int x)
-        System.out.println(dis[n][m]);
+
+        visited = new boolean[n][m];
+        visited[0][0] = true;
+        BFS(0, 0);
+        System.out.println(answer[n-1][m-1]);
     }
-
-    public static void BFS(int y, int x) {
+    public static void BFS(int x, int y) {
         Queue<Point> q = new LinkedList<>();
-        q.offer(new Point(y, x));
-
+        q.offer(new Point(x, y));
+        answer[x][y] = 1;
         while (!q.isEmpty()) {
-            int len = q.size();
             Point p = q.poll();
-            for (int l = 0; l < len; l++) {
-                for (int i = 0; i < 4; i++) {
-                    int dx = p.x + disX[i];
-                    int dy = p.y + disY[i];
-
-                    if (dx >= 1 && dx <= m && dy >= 1 && dy <= n
-                            && graph[dy][dx] == 1) {
-                        graph[dy][dx] = 0;
-                        q.offer(new Point(dy, dx));
-                        dis[dy][dx] = dis[p.y][p.x] + 1;
-                    }
+            for (int i = 0; i < 4; i++) {
+                int nx = p.x + disX[i];
+                int ny = p.y + disY[i];
+                if (nx < n && nx >= 0 && ny < m && ny >= 0
+                        && graph[nx][ny] == 1 && !visited[nx][ny]) {
+                    answer[nx][ny] = answer[p.x][p.y] + 1;
+                    visited[nx][ny] = true;
+                    q.offer(new Point(nx, ny));
                 }
             }
         }
-
 
     }
 }
