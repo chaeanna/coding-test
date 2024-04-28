@@ -2,17 +2,14 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] nums) {
-        int getCnt = nums.length / 2;
-        List<Integer> type = new ArrayList<>();
+        int answer = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        //폰켓몬의 종류
         for (int i = 0; i < nums.length; i++) {
-            if (type.contains(nums[i])) continue;
-            type.add(nums[i]);
+            map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
         }
-        // 종류가 가질 수 있는 폰켓몬 마리수보다 같거나 작으면 종류 수 출력
-        if (type.size() <= getCnt) {
-            return type.size();
-        } else {
-            return getCnt;
-        }
+        int result = nums.length / 2;
+        answer = result >= map.size() ? map.size() : result;
+        return answer;
     }
 }
