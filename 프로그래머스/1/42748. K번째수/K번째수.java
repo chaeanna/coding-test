@@ -3,15 +3,18 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
         int[] answer = new int[commands.length];
-        for (int i = 0; i < commands.length; i++) {
-            int[] result = new int[commands[i][1] - (commands[i][0]-1)];
-            int idx = 0;
-            for (int j = commands[i][0] - 1; j <= commands[i][1]-1; j++) {
-                result[idx] = array[j];
-                idx++;
+        List<Integer> list = new ArrayList<>();
+        for (int a = 0; a < commands.length; a++) {
+            int i = commands[a][0];
+            int j = commands[a][1];
+            int k = commands[a][2];
+            
+            for (int b = i-1; b < j; b++) {
+                list.add(array[b]);
             }
-            Arrays.sort(result);
-            answer[i] = result[commands[i][2] - 1];
+            Collections.sort(list);
+            answer[a] = list.get(k-1);
+            list.clear();
         }
         return answer;
     }
