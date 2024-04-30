@@ -2,15 +2,23 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] sizes) {
-        int answer = 0;
+        int maxW = Integer.MIN_VALUE;
+        int maxH = Integer.MIN_VALUE;
 
-        List<Integer> maxlist = new ArrayList<>();
-        List<Integer> minlist = new ArrayList<>();
         for (int i = 0; i < sizes.length; i++) {
-            maxlist.add(Math.max(sizes[i][0], sizes[i][1]));
-            minlist.add(Math.min(sizes[i][0], sizes[i][1]));
+            int w = sizes[i][0];
+            int h = sizes[i][1];
+            
+            if (w >= h) {
+                maxW = Math.max(w, maxW);
+                maxH = Math.max(h, maxH);
+            } else {
+                maxW = Math.max(h, maxW);
+                maxH = Math.max(w, maxH);
+            }
+            
         }
-        answer = Collections.max(maxlist) * Collections.max(minlist);
+        int answer = maxW * maxH;
         return answer;
     }
 }
