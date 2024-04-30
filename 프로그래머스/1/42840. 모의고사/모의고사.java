@@ -1,44 +1,63 @@
 import java.util.*;
 
 class Solution {
-    public List<Integer> solution(int[] answers) {
-        int[][] supo = new int[3][10];
-        supo[0] = new int[]{1, 2, 3, 4, 5};
-        supo[1] = new int[]{2, 1, 2, 3, 2, 4, 2, 5};
-        supo[2] = new int[]{3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        int[] count = new int[3];
-
+    public int[] solution(int[] answers) {
+        int[] soopo1 = {1, 2, 3, 4, 5};
+        int[] soopo2 = {2, 1, 2, 3, 2, 4, 2, 5};
+        int[] soopo3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        
+        int[] soopo = new int[4];
         for (int i = 0; i < answers.length; i++) {
-            // 1번 수포자
-            int idx1 = i % 5;
-            if (answers[i] == supo[0][idx1]) {
-                count[0]++;
+            int answer = answers[i];
+            if (soopo1[i % soopo1.length] == answer) {
+                soopo[1]++;
             }
-            // 2번 수포자
-            int idx2 = i % 8;
-            if (answers[i] == supo[1][idx2]) {
-                count[1]++;
+            if (soopo2[i % soopo2.length] == answer) {
+                soopo[2]++;
             }
-            // 3번 수포자
-            int idx3 = i % 10;
-            if (answers[i] == supo[2][idx3]) {
-                count[2]++;
+            if (soopo3[i % soopo3.length] == answer) {
+                soopo[3]++;
             }
         }
-
-        // 정답을 저장할 리스트
-        List<Integer> resultList = new ArrayList<>();
-
-        // 최대 정답 개수 계산
-        int maxCount = Math.max(count[0], Math.max(count[1], count[2]));
-
-        // 최대 정답 개수에 해당하는 수포자들을 리스트에 추가
-        for (int i = 0; i < count.length; i++) {
-            if (count[i] == maxCount) {
-                resultList.add(i + 1);
+        
+        List<Integer> list = new ArrayList<>();
+        
+        if (soopo[1] > soopo[2]) {
+            if (soopo[1] > soopo[3]) {
+                list.add(1);
+            } else if (soopo[1] == soopo[3]) {
+                list.add(1);
+                list.add(3);
+            } else  {
+                list.add(3);
+            }
+        } else if (soopo[1] == soopo[2]) {
+            if (soopo[1] > soopo[3]) {
+                list.add(1);
+                list.add(2);
+            } else if (soopo[1] == soopo[3]) {
+                list.add(1);
+                list.add(2);
+                list.add(3);
+            } else {
+                list.add(3);
+            }
+        } else {
+            if (soopo[2] > soopo[3]) {
+                list.add(2);
+            } else if (soopo[2] == soopo[3]) {
+                list.add(2);
+                list.add(3);
+            } else {
+                list.add(3);
             }
         }
+        
+        int[] result = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
 
-        return resultList;
+        return result;
     }
 }
