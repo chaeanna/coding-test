@@ -1,15 +1,35 @@
+import java.util.*;
+
 class Solution {
     boolean solution(String s) {
-        boolean answer = false;
-        int count = 0;
-
+        boolean answer = true; // 올바른 괄호 true
+        Stack<Character> stack = new Stack<>();
+        
         for (int i = 0; i < s.length(); i++) {
-            if (count < 0) return answer;
-            if (s.charAt(i) == '(') count++;
-            else if (s.charAt(i) == ')') count--;
+            //첫번째 괄호가 ')' -> false
+            if (s.charAt(0) == ')') {
+                return false;
+            }
+            
+            char c = s.charAt(i);
+            // '(' 스택에 넣기
+            if (c == '(') {
+                stack.push(c);
+            } else {
+                // ')'이면 스택 pop()
+                if (!stack.isEmpty()) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+                
+            }
+        }
+        
+        if (!stack.isEmpty()) {
+            return false;
         }
 
-        if (count == 0) answer = true;
         return answer;
     }
 }
