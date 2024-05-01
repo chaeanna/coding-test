@@ -1,19 +1,21 @@
 import java.util.*;
 
 class Solution {
-    static List<Set<Integer>> network;
     static boolean[] visited;
+    static List<ArrayList<Integer>> list;
     public int solution(int n, int[][] computers) {
         int answer = 0;
-        network = new ArrayList<>();
+        list = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            network.add(new HashSet<>());
+            list.add(new ArrayList<>());
         }
+        
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (computers[i][j] == 1) {
-                    network.get(i).add(j);
-                }
+                int check = computers[i][j];
+                if (check == 1) {
+                    list.get(i).add(j);
+                } 
             }
         }
         
@@ -31,15 +33,15 @@ class Solution {
     public static void BFS(int computer) {
         Queue<Integer> q = new LinkedList<>();
         q.offer(computer);
+        
         while (!q.isEmpty()) {
             int com = q.poll();
-            for (int i : network.get(com)) {
+            for (int i : list.get(com)) {
                 if (!visited[i]) {
                     visited[i] = true;
                     q.offer(i);
-                }   
+                }
             }
         }
-        
     }
 }
