@@ -2,48 +2,45 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        HashMap<Integer, Integer> playsMap = new HashMap<>();
-        HashMap<String, Integer> genresMap = new HashMap<>();
-        // 장르별 노래
+        // 노래별 장르
+        HashMap<Integer, String> mapG = new HashMap<>();
+        // 장르별 재생횟수
+        HashMap<String, Integer> mapP = new HashMap<>();
+        // 노래별 재생횟수
+        HashMap<Integer, Integer> mapC = new HashMap<>();
+        
         for (int i = 0; i < genres.length; i++) {
-            // key : 고유번호, value : 재생횟수
-            playsMap.put(i, plays[i]);
-            // key : 장르, value : 재생횟수 합계
-            genresMap.put(genres[i], genresMap.getOrDefault(genres[i], 0) + plays[i]);
+            String g = genres[i];
+            int count = plays[i];
+            mapG.put(i, g);
+            mapP.put(g, mapP.getOrDefault(g, 0) + count);
+            mapC.put(i, count);
         }
         
-        List<Map.Entry<String, Integer>> genreRank = new LinkedList<>(genresMap.entrySet());
-        List<Map.Entry<Integer, Integer>> playRank = new LinkedList<>(playsMap.entrySet());
-        // 재생횟수 합계가 제일 높은 순으로 장르 정렬
-        genreRank.sort((o2, o1) -> genresMap.get(o1.getKey()) - genresMap.get(o2.getKey()));
-        // 재생횟수가 제일 높은 순으로 노래 정렬
-        playRank.sort((o2, o1) -> playsMap.get(o1.getKey()) - playsMap.get(o2.getKey()));
-        
-        /*
-            1. 재생횟수가 많은 장르 찾기
-            2. 장르에서 최대 2개씩 수록
-            3. 다음으로 많은 장르에서 최대 2개씩 수록
-        */
+        // 장르별 재생횟수 많은 순으로 정렬 리스트
+        List<String> gen = new ArrayList<>(mapP.keySet());
+        Collections.sort(gen, (o2, o1) -> mapP.get(o1) - mapP.get(o2));
+        // 고유번호별 재생횟수 많은순으로 정렬 리스트
+        List<Integer> cnt = new ArrayList<>(mapC.keySet());
+        Collections.sort(cnt, (o2, o1) -> mapC.get(o1) - mapC.get(o2));
+        // 수록될 고유번호 리스트
         List<Integer> list = new ArrayList<>();
-        for (Map.Entry<String,Integer> entry : genreRank) {
-            String genre = entry.getKey();
+        for (int i = 0; i < gen.size(); i++) {
+            String g = gen.get(i);
             int count = 0;
-            for (Map.Entry<Integer, Integer> play : playRank) {
-                if (genre.equals(genres[play.getKey()])) {
+            for (int j = 0; j < cnt.size(); j++) {
+                int idx = cnt.get(j);
+                if (count == 2) break;
+                if (mapG.get(idx).equals(g)) {
                     count++;
-                    list.add(play.getKey());
-                }
-                if(count == 2) {
-                    break;
+                    list.add(idx);
                 }
             }
         }
-        
         int[] answer = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             answer[i] = list.get(i);
         }
-
         return answer;
     }
 }
