@@ -1,5 +1,4 @@
 import java.util.*;
-
 class Point {
     int x, y;
     public Point(int x, int y) {
@@ -8,43 +7,45 @@ class Point {
     }
 }
 class Solution {
-    static int[] disX = {0, 0, 1, -1};
-    static int[] disY = {1, -1, 0, 0};
-    static int[][] visited;
-    static int[][] map;
+    static int[][] answer, map;
+    static boolean[][] visited;
+    static int[] disX = {1, -1, 0, 0};
+    static int[] disY = {0, 0, 1, -1};
+    static int n, m;
     public int solution(int[][] maps) {
-        int answer = 0;
-        visited = new int[maps.length][maps[0].length];
-        BFS(maps, 0, 0);
-        answer = visited[maps.length-1][maps[0].length-1];
-        return answer == 0 ? -1 : answer;
+        n = maps.length;
+        m = maps[0].length;
+        map = maps;
+        answer = new int[n][m];
+        visited = new boolean[n][m];
+        visited[0][0] = true;
+        BFS(0, 0);
+        if (answer[n-1][m-1] == 0) {
+            return -1;
+        }
+        return answer[n-1][m-1];
     }
     
-    public static void BFS(int[][] maps, int x, int y) {
+    public static void BFS(int x, int y) {
         Queue<Point> q = new LinkedList<>();
         q.offer(new Point(x, y));
-        visited[x][y] = 1;
+        answer[0][0] = 1;
         
         while (!q.isEmpty()) {
             Point p = q.poll();
             for (int i = 0; i < 4; i++) {
-                // 이동할 위치
                 int nx = p.x + disX[i];
                 int ny = p.y + disY[i];
                 
-                if (validLoc(nx, ny) 
-                    && maps[nx][ny] == 1
-                    && visited[nx][ny] == 0) {
-                    visited[nx][ny] = visited[p.x][p.y] + 1;
+                if (nx >= 0 && nx < n && ny >= 0 && ny < m
+                    && map[nx][ny] == 1 && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    answer[nx][ny] = answer[p.x][p.y] + 1;
                     q.offer(new Point(nx, ny));
                 }
-                
             }
         }
-        
     }
     
-    public static boolean validLoc(int x, int y) {
-        return x >= 0 && x < visited.length && y >= 0 && y < visited[0].length;
-    }
+    
 }
