@@ -1,26 +1,26 @@
 class Solution {
     public int solution(String name) {
-        // 상하동작 횟수
         int answer = 0;
-        // 좌우동작 횟수
-        int move = name.length() - 1; //계속 오른쪽으로 움직였을 경우
-        
-        for (int i = 0; i < name.length(); i++) {
-            answer += Math.min(name.charAt(i) - 'A', 26 - (name.charAt(i) - 'A')); // 위로 조작, 아래조작 = 26 - 위로조작
-            if (i < name.length() - 1 && name.charAt(i+1) == 'A') {
-                // 연속된 'A' 존재
-                int endA = i+1; // A가 끝나는 지점 찾기
-                while (endA < name.length() && name.charAt(endA) == 'A') {
-                    endA++;
+        int len = name.length();
+        int move = len - 1; // 계속 오른쪽으로만 이동했을 경우
+        for (int i = 0; i < len; i++) {
+            char c = name.charAt(i);
+            answer += Math.min(c - 'A', 26 - (c-'A'));
+            
+            // 커서 이동 결정
+            if (i < len-1 && name.charAt(i+1) == 'A') {
+                int end = i+1;
+                while (end < len && name.charAt(end) == 'A') {
+                    end++;
                 }
-                
-                // 오른쪽으로 움직였다가 다시 0으로 온 후, 왼쪽으로 움직인 경우
-                move = Math.min(move, i * 2 + name.length() - endA); 
-                // 왼쪽으로 움직였다 다시 0으로 온 후, 오른쪽으로 움직인 경우
-                move = Math.min(move, i + (name.length() - endA) * 2); 
+                // end는 A가 아닐때 멈춘 상태의 idx
+                // 0에서 현위치까지 왔다가 다시 0으로 돌아간 후, 왼쪽으로 더 움직여 end까지 이동
+                move = Math.min(move, (i * 2) + (len - end));
+                // 0에서 왼쪽으로 움직였다 다시 0으로 온 후, 오른쪽으로 움직인 경우
+                move = Math.min(move, (len-end) * 2 + i);
             }
+            
         }
-        
-        return answer + move;
+        return answer+move;
     }
 }
