@@ -1,44 +1,36 @@
 import java.util.*;
 
 class Solution {
-    static Set<Integer> set;
+    static Set<Integer> set = new HashSet<>();
     static boolean[] visited;
-    static String[] piece;
     public int solution(String numbers) {
-        piece = numbers.split("");
-        set = new HashSet<>();
+        int answer = 0;
         visited = new boolean[numbers.length()];
-        
-        DFS("", 0);
-        int answer = set.size();
+        DFS(numbers, "");
+        answer = set.size();
         return answer;
-            
     }
-    public static void DFS(String str, int idx) {
+    
+    public static void DFS(String numbers, String str) {
         if (!str.equals("")) {
             int num = Integer.parseInt(str);
             if (isPrime(num)) {
                 set.add(num);
             }
         }
-        if (idx == piece.length) {
-            return;
-        }
         
-        for (int i = 0; i < piece.length; i++) {
+        for (int i = 0; i < numbers.length(); i++) {
             if (!visited[i]) {
                 visited[i] = true;
-                DFS(str+piece[i], idx+1);
+                DFS(numbers, str+numbers.charAt(i));
                 visited[i] = false;
             }
         }
     }
     
     public static boolean isPrime(int num) {
-        if (num < 2) {
-            return false;
-        }
-        for (int i = 2; i*i <= num; i++) {
+        if (num < 2) return false;
+        for (int i = 2; i * i <= num; i++) {
             if (num % i == 0) return false;
         }
         return true;
