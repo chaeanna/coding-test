@@ -19,14 +19,13 @@ class Main {
             dp[2] = stairs[1] + stairs[2];
         }
 
-        System.out.println(DP(N));
-    }
-    // Top-Down : 재귀
-    public static int DP(int num) {
-        if (dp[num] == null) {
-            dp[num] = Math.max(DP(num-2), DP(num-3)+stairs[num-1])+stairs[num];
+        // Bottom-Top : 반복문
+        for (int i = 3; i <= N; i++) {
+            dp[i] = Math.max(dp[i-2], dp[i-3]+stairs[i-1]) + stairs[i];
         }
-        return dp[num];
+
+        System.out.println(dp[N]);
     }
-    
+
+
 }
